@@ -44,7 +44,4 @@ app.on('window-all-closed', function () {
 })
 
 
-try {
-    require('electron-reloader')(module)
-} catch (_) {
-}
+try { require('electron-reloader')(module) } catch (_) {}
