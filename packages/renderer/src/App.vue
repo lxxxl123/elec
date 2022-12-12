@@ -1,66 +1,137 @@
 <script lang="ts" setup>
-import ReactiveCounter from '/@/components/ReactiveCounter.vue'
-import ReactiveHash from '/@/components/ReactiveHash.vue'
-import ElectronVersions from '/@/components/ElectronVersions.vue'
+import { ref } from 'vue'
+import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 
-const APP_VERSION = import.meta.env.VITE_APP_VERSION
+const item = {
+  date: '2016-05-02',
+  name: 'Tom',
+  address: 'No. 189, Grove St, Los Angeles',
+}
+const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+
 </script>
 
 <template>
-  <img
-    alt="Vue logo"
-    src="../assets/logo.svg"
-    width="150"
-  >
+  <el-container class="layout-container-demo" style="height: auto">
+    <el-aside width="200px">
+      <el-scrollbar>
+        <el-menu :default-openeds="['1', '3']" router>
+          <el-sub-menu index="1">
+            <template #title>
+              <el-icon><message /></el-icon>Navigator One
+            </template>
+            <el-menu-item index="/home">
+              Option 1
+            </el-menu-item>
+            <el-menu-item index="vuex">
+              Option 2
+            </el-menu-item>
+            <el-sub-menu index="1-4">
+              <template #title>
+                Option4
+              </template>
+              <el-menu-item index="1-4-1">
+                Option 4-1
+              </el-menu-item>
+            </el-sub-menu>
+          </el-sub-menu>
+          <el-sub-menu index="2">
+            <template #title>
+              <el-icon><icon-menu /></el-icon>Navigator Two
+            </template>
+            <el-menu-item-group>
+              <template #title>
+                Group 1
+              </template>
+              <el-menu-item index="2-1">
+                Option 1
+              </el-menu-item>
+              <el-menu-item index="2-2">
+                Option 2
+              </el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="Group 2">
+              <el-menu-item index="2-3">
+                Option 3
+              </el-menu-item>
+            </el-menu-item-group>
+            <el-sub-menu index="2-4">
+              <template #title>
+                Option 4
+              </template>
+              <el-menu-item index="2-4-1">
+                Option 4-1
+              </el-menu-item>
+            </el-sub-menu>
+          </el-sub-menu>
+          <el-sub-menu index="3">
+            <template #title>
+              <el-icon><setting /></el-icon>Navigator Three
+            </template>
+            <el-menu-item-group>
+              <template #title>
+                Group 1
+              </template>
+              <el-menu-item index="3-1">
+                Option 1
+              </el-menu-item>
+              <el-menu-item index="3-2">
+                Option 2
+              </el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="Group 2">
+              <el-menu-item index="3-3">
+                Option 3
+              </el-menu-item>
+            </el-menu-item-group>
+            <el-sub-menu index="3-4">
+              <template #title>
+                Option 4
+              </template>
+              <el-menu-item index="3-4-1">
+                Option 4-1
+              </el-menu-item>
+            </el-sub-menu>
+          </el-sub-menu>
+        </el-menu>
+      </el-scrollbar>
+    </el-aside>
 
-  <p>
-    <!-- Example how to inject current app version to UI -->
-    App version: {{ APP_VERSION }}
-  </p>
+    <el-container>
+      <el-header style="text-align: right; font-size: 12px">
+        <div class="toolbar">
+          <el-dropdown>
+            <el-icon style="margin-right: 8px; margin-top: 1px">
+              <setting />
+            </el-icon>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>View</el-dropdown-item>
+                <el-dropdown-item>Add</el-dropdown-item>
+                <el-dropdown-item>Delete</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+          <span>Tom</span>
+        </div>
+      </el-header>
 
-  <p>
-    For a guide and recipes on how to configure / customize this project,<br>
-    check out the
-    <a href="https://github.com/cawa-93/vite-electron-builder" target="_blank">
-      vite-electron-builder documentation
-    </a>
-    .
-  </p>
-
-  <fieldset>
-    <legend>Test Vue Reactivity</legend>
-    <reactive-counter />
-  </fieldset>
-
-  <fieldset>
-    <legend>Test Node.js API</legend>
-    <reactive-hash />
-  </fieldset>
-
-  <fieldset>
-    <legend>Environment</legend>
-    <electron-versions />
-  </fieldset>
-
-  <p>
-    Edit
-    <code>packages/renderer/src/App.vue</code> to test hot module replacement.
-  </p>
+      <el-main>
+        <router-view />
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin: 60px auto;
-  max-width: 700px;
-}
-
-fieldset {
-  margin: 2rem;
-  padding: 1rem;
 }
 </style>

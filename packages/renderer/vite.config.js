@@ -1,13 +1,13 @@
 /* eslint-env node */
 
-import {chrome} from '../../.electron-vendors.cache.json';
-import vue from '@vitejs/plugin-vue';
-import {renderer} from 'unplugin-auto-expose';
-import {join} from 'node:path';
-import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
+import { chrome } from '../../.electron-vendors.cache.json'
+import vue from '@vitejs/plugin-vue'
+import { renderer } from 'unplugin-auto-expose'
+import { join } from 'node:path'
+import { injectAppVersion } from '../../version/inject-app-version-plugin.mjs'
 
-const PACKAGE_ROOT = __dirname;
-const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
+const PACKAGE_ROOT = __dirname
+const PROJECT_ROOT = join(PACKAGE_ROOT, '../..')
 
 /**
  * @type {import('vite').UserConfig}
@@ -20,6 +20,7 @@ const config = {
   resolve: {
     alias: {
       '/@/': join(PACKAGE_ROOT, 'src') + '/',
+      '@/': join(PACKAGE_ROOT, 'src') + '/',
     },
   },
   base: '',
@@ -49,6 +50,6 @@ const config = {
     }),
     injectAppVersion(PROJECT_ROOT),
   ],
-};
+}
 
-export default config;
+export default config
