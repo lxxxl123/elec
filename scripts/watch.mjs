@@ -31,11 +31,12 @@ function setupMainPackageWatcher({resolvedUrls}) {
        * Set to {} to enable rollup watcher
        * @see https://vitejs.dev/config/build-options.html#build-watch
        */
+      // 作用,热更新
       watch: {},
     },
     plugins: [
       {
-        name: 'reload-app-on-main-package-change',
+        name: 'reload electron',
         writeBundle() {
           /** Kill electron if process already exist */
           if (electronApp !== null) {
@@ -77,7 +78,7 @@ function setupPreloadPackageWatcher({ws}) {
     },
     plugins: [
       {
-        name: 'reload-page-on-preload-package-change',
+        name: 'reload preload',
         writeBundle() {
           ws.send({
             type: 'full-reload',

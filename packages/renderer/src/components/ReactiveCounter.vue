@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
+import { useCounterStore } from '/@/stores/counter'
 
-const count = ref(0);
+const couner = useCounterStore()
 </script>
 
 <template>
-  <button @click="count++"> count is: {{ count }}</button>
-  <br /><br />
+  <button @click="couner.increment()">
+    count is: {{ couner.count }}
+  </button>
+  <br><br>
   <code>packages/renderer/src/components/ReactiveCounter.vue</code>
 </template>
