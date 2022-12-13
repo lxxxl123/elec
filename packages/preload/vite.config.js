@@ -1,10 +1,10 @@
-import {chrome} from '../../.electron-vendors.cache.json';
-import {preload} from 'unplugin-auto-expose';
-import {join} from 'node:path';
-import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
+import { chrome } from '../../.electron-vendors.cache.json'
+import { preload } from 'unplugin-auto-expose'
+import { join } from 'node:path'
+import { injectAppVersion } from '../../version/inject-app-version-plugin.mjs'
 
-const PACKAGE_ROOT = __dirname;
-const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
+const PACKAGE_ROOT = __dirname
+const PROJECT_ROOT = join(PACKAGE_ROOT, '../..')
 
 /**
  * @type {import('vite').UserConfig}
@@ -14,6 +14,11 @@ const config = {
   mode: process.env.MODE,
   root: PACKAGE_ROOT,
   envDir: PROJECT_ROOT,
+  resolve: {
+    alias: {
+      '@/': join(PACKAGE_ROOT, 'src') + '/',
+    },
+  },
   build: {
     ssr: true,
     sourcemap: 'inline',
@@ -34,6 +39,6 @@ const config = {
     reportCompressedSize: false,
   },
   plugins: [preload.vite(), injectAppVersion(PROJECT_ROOT)],
-};
+}
 
-export default config;
+export default config

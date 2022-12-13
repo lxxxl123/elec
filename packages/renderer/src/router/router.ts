@@ -18,9 +18,11 @@ const routes: Array<RouteRecordRaw> = [
     component: Vuex
   },
   {
-    path: '/axios',
-    name: 'Axios',
-    component: () => import('@/views/axios.vue') // 懒加载组件
+    path: '/jenkins-devops',
+    name: 'jenkins-devops',
+    // component: Home
+    component: () => import('/@/views/jenkins/jenkins-devops.vue') // 懒加载组件
+    // component: () => import('@/views/home.vue') // 懒加载组件
   }
 ]
 
