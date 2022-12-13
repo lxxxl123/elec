@@ -29,7 +29,7 @@ export function request(url: string | URL, options: RequestOptions, data: any = 
         resolve(new Resp(res.statusCode, data, res.headers))
       })
       res.on('error', (err) => {
-        resolve(new Resp(res.statusCode, data, res.headers, err.message))
+        reject(new Resp(res.statusCode, data, res.headers, err.message))
       })
     })
     data && req.write(data)

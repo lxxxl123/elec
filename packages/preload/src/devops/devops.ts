@@ -1,13 +1,16 @@
 import { request } from '@/ahttp'
+import { find } from '@vue/test-utils/dist/utils/find'
 
 
 export class Devops {
   sessionId:string
   crumb:string
+  private jobSeq:string|undefined
 
   constructor() {
     this.sessionId = ''
     this.crumb = ''
+    this.jobSeq = ''
   }
 
   async login(username = 'dev', password = 'dev0407@'):Promise<Devops> {
@@ -45,10 +48,55 @@ export class Devops {
       }
     })
   }
+
+  getProcess(jobName: string): Promise<Boolean> {
+    return request(`http://192.168.26.2:8080/job/QMS/job/${jobName}/buildHistory/ajax`, {
+      method: 'get',
+      headers: {
+        'Cookie': this.sessionId,
+        'Jenkins-Crumb': this.crumb
+      }
+    }).then(res => {
+      const html:string = res.data
+      if(html.indexOf('pending—Waiting for next available executor') > -1 || html.indexOf('预计剩余时间') > -1) {
+        if (!this.jobSeq) {
+          this.jobSeq = new RegExp(`${jobName}/(\\d+)/console`).exec(html)?.[1]
+        }
+        return true
+      }
+      return false
+    })
+  }
+
+
+  getConsole(jobName: string): Promise<string> {
+    return request(`http://192.168.26.2:8080/job/QMS/job/${jobName}/${this.jobSeq}/console`, {
+      method: 'get',
+      headers: {
+        'Cookie': this.sessionId,
+        'Jenkins-Crumb': this.crumb
+      }
+    }).then(res => {
+      this.jobSeq = ''
+      return subAfter(cleanHtmlTag(res.data), 'Started by user ')
+    })
+  }
+}
+
+function subAfter(str: string, find: string) {
+  let i: number
+  if ((i = str.indexOf(find)) > -1) {
+    return str.substring(i)
+  }
+  return str
+}
+
+function cleanHtmlTag(html:string): string {
+  return html.replace(/(<[^<]*?>)|(<[\s]*?\/[^<]*?>)|(<[^<]*?\/\s*?>)/g, '')
 }
 
 
-async function getFirstSessionId(): Promise<string|undefined> {
+function getFirstSessionId(): Promise<string|undefined> {
   return request('http://192.168.26.2:8080/j_spring_security_check', {
     method: 'GET'
   }).then((res) => {
@@ -82,7 +130,7 @@ async function getRealSessionId(username = 'dev', password = 'dev0407@'): Promis
 }
 
 
-export async function pickCrumb(sessionId:string): Promise<string|undefined> {
+async function pickCrumb(sessionId:string): Promise<string|undefined> {
   console.log(`real sessionId = ${sessionId}`)
   return request('http://192.168.26.2:8080', {
     method: 'GET',
