@@ -6,14 +6,15 @@ class Resp {
   statusCode: number| undefined
   data: any
   headers: IncomingHttpHeaders
-  err: any
+  err?: string
 
-  constructor(statusCode: number| undefined, data : any, headers: IncomingHttpHeaders, err: any) {
+  constructor(statusCode: number| undefined, data : any, headers: IncomingHttpHeaders, err?:string) {
     this.statusCode = statusCode
     this.data = data
     this.headers = headers
-    this.err = err
+    err && (this.err = err)
   }
+
 }
 
 export function request(url: string | URL, options: RequestOptions, data: any = null): Promise<Resp> {
@@ -25,10 +26,10 @@ export function request(url: string | URL, options: RequestOptions, data: any = 
         data += chunk
       })
       res.on('end', () => {
-        resolve(new Resp(res.statusCode, data, res.headers, ''))
+        resolve(new Resp(res.statusCode, data, res.headers))
       })
       res.on('error', (err) => {
-        resolve(new Resp(res.statusCode, data, res.headers, err))
+        resolve(new Resp(res.statusCode, data, res.headers, err.message))
       })
     })
     data && req.write(data)
