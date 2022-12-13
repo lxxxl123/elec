@@ -1,7 +1,6 @@
 import { app, ipcMain } from 'electron'
 import './security-restrictions'
 import { restoreOrCreateWindow } from '/@/mainWindow'
-import { doLogin } from '../../preload/src/devops'
 
 /**
  * Prevent electron from running multiple instances.

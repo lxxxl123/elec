@@ -1,16 +1,22 @@
 <script setup lang="ts">
-import { runExec, login } from '#preload'
+import { Devops, login } from '#preload'
 import { ref } from 'vue'
 
-const cmd = ref('')
-const path = ref('')
+const sessionId = ref('')
+const crumb = ref('')
 
-const abc = (e: any):void => {
-  runExec(cmd.value, path.value, (data) => console.log(data))
-}
+let devops:Devops
 
 const loginDevops = () => {
-  login()
+  login().then((e) => {
+    devops = e
+    sessionId.value = devops.sessionId
+    crumb.value = devops.crumb
+  })
+}
+
+const buildBranch = () => {
+  devops.build('qms-platform-build', 'feature/chargReport-v1.0.0')
 }
 
 
@@ -23,15 +29,19 @@ const loginDevops = () => {
       登录
     </el-button>
   </div>
+
   <div>
-    <span>cmd: </span><el-input v-model="cmd" />
+    <span>当前sessionId: </span><el-input v-model="sessionId" />
   </div>
   <div>
-    <span>path: </span><el-input v-model="path" />
+    <span>当前crumb: </span><el-input v-model="crumb" />
   </div>
-  <el-button @click="abc">
-    echo
-  </el-button>
+
+  <div>
+    <el-button @click="buildBranch">
+      构建
+    </el-button>
+  </div>
 </template>
 
 <style scoped></style>

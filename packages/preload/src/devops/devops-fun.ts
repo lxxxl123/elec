@@ -12,7 +12,5 @@ async function getSessionId() {
 
 
 export function login() {
-  doLogin().then((res) => {
-    console.log(res)
-  })
+  return doLogin()
 }
