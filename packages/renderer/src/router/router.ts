@@ -4,7 +4,6 @@ import {
   RouteRecordRaw
 } from 'vue-router'
 import Home from '@/views/home.vue'
-import Vuex from '@/views/vuex.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,16 +12,19 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   {
-    path: '/vuex',
-    name: 'Vuex',
-    component: Vuex
+    path: '/xterm',
+    name: 'xterm',
+    component: () => import('@/views/xterm/index.vue')
+  },
+  {
+    path: '/loc-build',
+    name: 'loc-build',
+    component: () => import('/@/views/build/loc-build.vue') // 懒加载组件
   },
   {
     path: '/jenkins-devops',
     name: 'jenkins-devops',
-    // component: Home
     component: () => import('/@/views/jenkins/jenkins-devops.vue') // 懒加载组件
-    // component: () => import('@/views/home.vue') // 懒加载组件
   }
 ]
 

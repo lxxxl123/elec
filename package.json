@@ -40,7 +40,6 @@
     "eslint": "8.29.0",
     "eslint-plugin-vue": "9.8.0",
     "happy-dom": "8.1.0",
-    "nano-staged": "0.8.0",
     "playwright": "1.27.1",
     "simple-git-hooks": "2.8.1",
     "typescript": "4.9.4",
@@ -56,6 +55,7 @@
     "element-plus": "^2.2.26",
     "pinia": "^2.0.28",
     "vue": "3.2.45",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "xterm": "^5.0.0"
   }
 }
