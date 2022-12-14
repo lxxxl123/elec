@@ -1,4 +1,5 @@
-import { app, ipcMain, session, BrowserWindow, net } from 'electron'
+// @ts-ignore
+import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { URL } from 'url'
 
@@ -52,7 +53,7 @@ async function createWindow() {
  * Restore an existing BrowserWindow or Create a new BrowserWindow.
  */
 export async function restoreOrCreateWindow() {
-  let window = BrowserWindow.getAllWindows().find(w => !w.isDestroyed())
+  let window = BrowserWindow.getAllWindows().find((w: BrowserWindow) => !w.isDestroyed())
 
   if (window === undefined) {
     window = await createWindow()

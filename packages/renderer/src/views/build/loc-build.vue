@@ -1,9 +1,11 @@
 <script setup lang="ts" name="loc-build">
 import { ref } from 'vue'
-import { openFileDialog } from '#preload'
+import { openFileDialog, runSh } from '#preload'
 
 const frontEndPath = ref('')
 const backEndPath = ref('')
+const cmd = ref('')
+const cmdRes = ref('')
 
 const openFront = async () => {
   frontEndPath.value = await openFileDialog({
@@ -17,6 +19,12 @@ const openBack = async () => {
   })
 }
 
+const exec = async () => {
+  cmdRes.value = ''
+  runSh(cmd.value, '.', (res) => {
+    cmdRes.value += res
+  })
+}
 
 const build = () => {
 }
@@ -42,6 +50,13 @@ const build = () => {
     <el-button @click="openBack">
       浏览
     </el-button>
+  </div>
+  <div>
+    <span>执行命令: </span><el-input v-model="cmd" />
+    <el-button @click="exec">
+      执行
+    </el-button>
+    <el-input v-model="cmdRes" type="text" />
   </div>
 </template>
 

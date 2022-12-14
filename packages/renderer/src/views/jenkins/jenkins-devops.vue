@@ -4,8 +4,7 @@ import { ref } from 'vue'
 
 const sessionId = ref('')
 const crumb = ref('')
-
-let devops:Devops
+let devops: Devops
 
 const loginDevops = () => {
   login().then((e) => {
@@ -31,10 +30,12 @@ const buildBranch = () => {
   </div>
 
   <div>
-    <span>当前sessionId: </span><el-input v-model="sessionId" />
+    <span>当前sessionId: </span>
+    <el-input v-model="sessionId" />
   </div>
   <div>
-    <span>当前crumb: </span><el-input v-model="crumb" />
+    <span>当前crumb: </span>
+    <el-input v-model="crumb" />
   </div>
 
   <div>
