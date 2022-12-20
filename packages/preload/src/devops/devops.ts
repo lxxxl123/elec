@@ -1,6 +1,4 @@
 import { request } from '@/ahttp'
-import { find } from '@vue/test-utils/dist/utils/find'
-
 
 export class Devops {
   sessionId:string

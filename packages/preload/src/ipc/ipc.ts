@@ -1,3 +1,4 @@
+// @ts-ignore
 import { ipcRenderer } from 'electron'
 
 export function openFileDialog(obj: any) {
