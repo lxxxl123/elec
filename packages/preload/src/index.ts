@@ -1,9 +1,9 @@
 /**
  * @module preload
  */
-export { sha256sum } from './nodeCrypto'
 export { versions } from './versions'
 export { runCmd, runSh } from './process'
-export { login } from './devops/devops-fun'
+export { login, build } from './devops/devops-fun'
 export { Devops } from './devops/devops'
-export { openFileDialog } from './ipc/ipc'
+export { openFileDialog } from '@/ipc/ipc'
+export { userDataService } from './mapper/db-user'

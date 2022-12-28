@@ -1,16 +1,18 @@
-import { doLogin } from './devops'
-const { ipcRenderer } = require('electron')
+import { Devops, doLogin } from './devops'
+import { Resp } from '@/ahttp'
 
+let de: Devops
 
-async function getSessionId() {
-  return ipcRenderer.invoke('get-sessionId').then((data:string) => {
-    console.log(data)
-    data = data.replace(/;.*/, '')
-    return data
+export function login() {
+  return doLogin().then(res => {
+    de = res
+    return de
   })
 }
 
-
-export function login() {
-  return doLogin()
+export function build(jobName:string, branchName: string): Promise<Resp> {
+  if (!de) {
+    console.log('未登陆 , 请重新登录')
+  }
+  return de.build(jobName, branchName)
 }

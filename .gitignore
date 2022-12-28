@@ -2,7 +2,7 @@ node_modules
 .DS_Store
 dist
 *.local
-thumbs.db
+*.db
 
 .eslintcache
 .browserslistrc
@@ -56,3 +56,6 @@ thumbs.db
 # Editor-based Rest Client
 .idea/httpRequests
 /.idea/csv-plugin.xml
+
+
+package-lock.json

@@ -1,4 +1,5 @@
-import { request } from '@/ahttp'
+import { request, Resp } from '@/ahttp'
+import { userDataService } from '@/mapper/db-user'
 
 export class Devops {
   sessionId:string
@@ -11,22 +12,46 @@ export class Devops {
     this.jobSeq = ''
   }
 
-  async login(username = 'dev', password = 'dev0407@'):Promise<Devops> {
+  async doLogin(username : string, password: string) {
     const sessionId = await getRealSessionId(username, password)
     if (!sessionId) {
       throw new Error('登录失败1')
     }
-    this.sessionId = sessionId
     const crumb = await pickCrumb(sessionId)
     if (!crumb) {
       throw new Error('登录失败2')
     }
-    this.crumb = crumb
+    return { sessionId, crumb }
+  }
+
+  /**
+   * 先读json登录失败再手动登录
+   * @param username
+   * @param password
+   */
+  async login(username = 'dev', password = 'dev0407@'):Promise<Devops> {
+    const userData = await userDataService.getData()
+    if (userData) {
+      console.log('已登录无需重复登录 , 登录信息 = ')
+      console.log(userData)
+      this.sessionId = userData.sessionId
+      this.crumb = userData.crumb
+    } else{
+      const { sessionId, crumb } = await this.doLogin(username, password)
+      this.sessionId = sessionId
+      this.crumb = crumb
+      await userDataService.writeData({
+        sessionId, crumb, timeout: 0
+      })
+    }
     return this
   }
 
   build(jobName = 'qms-platform-build', brandName:string) {
-    return request(`http://192.168.26.2:8080/${jobName}/job/QMS/job/${jobName}/build?delay=0sec`, {
+    console.log(this.sessionId)
+    const url = `http://192.168.26.2:8080/job/QMS/job/${jobName}/build?delay=0sec`
+    console.log(url)
+    return request(url, {
       method: 'post',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -102,10 +127,6 @@ function getFirstSessionId(): Promise<string|undefined> {
   })
 }
 
-export function doLogin(): Promise<Devops> {
-  const de = new Devops()
-  return de.login()
-}
 
 async function getRealSessionId(username = 'dev', password = 'dev0407@'): Promise<string|undefined> {
   const sessionId = await getFirstSessionId()
@@ -138,5 +159,10 @@ async function pickCrumb(sessionId:string): Promise<string|undefined> {
   }).then((res) => {
     return /data-crumb-value="(\w+)"/.exec(res.data)?.[1]
   })
+}
+
+
+export function doLogin(): Promise<Devops> {
+  return new Devops().login()
 }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Devops, login } from '#preload'
+import { Devops, login, build } from '#preload'
 import { ref } from 'vue'
 
 const sessionId = ref('')
@@ -15,7 +15,10 @@ const loginDevops = () => {
 }
 
 const buildBranch = () => {
-  devops.build('qms-platform-build', 'feature/chargReport-v1.0.0')
+  build('qms-platform-build', 'feature/chargReport-v1.0.0')
+    .then((res) => {
+      console.log(res)
+    })
 }
 
 

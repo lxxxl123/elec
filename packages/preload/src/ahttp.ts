@@ -2,7 +2,7 @@ import { URL } from 'node:url'
 import { IncomingHttpHeaders, RequestOptions } from 'http'
 import * as http from 'http'
 
-class Resp {
+export class Resp {
   statusCode: number| undefined
   data: any
   headers: IncomingHttpHeaders

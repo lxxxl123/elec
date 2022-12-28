@@ -8,7 +8,7 @@ import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
   <el-container style="height: auto">
     <el-aside width="200px">
       <el-scrollbar>
-        <el-menu :default-active="1" router>
+        <el-menu default-active="1" router>
           <el-sub-menu index="1">
             <template #title>
               <el-icon><message /></el-icon>Navigator One
