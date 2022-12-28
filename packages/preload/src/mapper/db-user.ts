@@ -1,9 +1,11 @@
 import { DbService } from '@/mapper/index'
+import dayjs from 'dayjs'
 
 interface UserData{
   sessionId: string
   crumb: string
   timeout: number
+  datetime?: string
 }
 
 class UserDataService extends DbService<UserData> {
@@ -27,6 +29,7 @@ class UserDataService extends DbService<UserData> {
 
   async writeData(data: UserData) {
     data.timeout = new Date().getTime() + 1000 * 60 * 10
+    data.datetime = dayjs(data.timeout).format('YYYY-MM-DD HH:mm:ss')
     await this.write(data)
   }
 
