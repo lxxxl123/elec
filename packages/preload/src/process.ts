@@ -36,7 +36,7 @@ let bashPath: string
 export function runSh(cmd: string, path: string, callback: (data: string) => void): Promise<boolean> {
   return new Promise<boolean>((resolve) => {
     if(!bashPath) {
-      const gitPath = shell.which('git').stdout
+      const gitPath = shell.which('git')?.stdout || ''
       bashPath = join(gitPath, '../../bin/bash.exe')
       console.log(bashPath)
     }
